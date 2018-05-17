@@ -1,0 +1,14 @@
+Completed Issues	View in Issue Navigator
+Key	Summary	Issue Type	Priority	Status	Story Points (2)
+CS-242	[Scho] BO event - Old design for manage registered users button	Bug	Important (MUST)	DONE	2
+Issues Not Completed	View in Issue Navigator
+Key	Summary	Issue Type	Priority	Status	Story Points (13)
+CS-13	[GDPR] - Integration - Create the Frontend of the consent page	New Feature	Important (MUST)	FUNCTIONAL REVIEW	0
+CS-161	[Tech] Remove direct calls to role model	Improvement	Normal (SHOULD)	TO DO	2
+CS-162	Implement NL events recommendation	Improvement	Normal (SHOULD)	IN DEV	1
+CS-167	[Tech] Update chewy	Improvement	Normal (SHOULD)	IN DEV	2
+CS-178	[Tech] Remove multitenant authorizations from the event F/O show page	Improvement	Normal (SHOULD)	FUNCTIONAL REVIEW	0
+CS-249	[GDPR] Improve CV upload consent disclaimer	Improvement	Important (MUST)	TO DO	0
+CS-253	Kill "events_home" rollout	Task	Normal (SHOULD)	IN DEV	2
+CS-266	Add search support for fields with boolean and decimal data_type	Task	Normal (SHOULD)	TO DO	3
+CS-268	Events acceptation email is not sent	Bug	Important (MUST)	TO DO	3

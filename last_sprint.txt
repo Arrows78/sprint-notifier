@@ -1,0 +1,19 @@
+Status Report
+* Issue added to sprint after start time
+Completed Issues	View in Issue Navigator
+Key	Summary	Issue Type	Priority	Status	Story Points (8)
+CS-141	[Scho] York - Time-out on the school conf	Bug	Important (MUST)	DONE	3
+CS-241	Custom fields for NOVA	Task	Important (MUST)	DONE	3
+CS-256	[SCHO] Students recruiters can't access the FO	Bug	Important (MUST)	DONE	2
+CS-264 *	Some recruiteurs don't have a role	Bug	Blocker	DONE	-
+CS-267 *	[Scho] Error 500 on Nova talent bank	Bug	Important (MUST)	DONE	-
+Issues Not Completed	View in Issue Navigator
+Key	Summary	Issue Type	Priority	Status	Story Points (13)
+CS-13	[GDPR] - Integration - Create the Frontend of the consent page	New Feature	Important (MUST)	FUNCTIONAL REVIEW	0
+CS-161	[Tech] Remove direct calls to role model	Improvement	Normal (SHOULD)	TO DO	2
+CS-162	Implement NL events recommendation	Improvement	Normal (SHOULD)	IN DEV	5
+CS-167	[Tech] Update chewy	Improvement	Normal (SHOULD)	IN DEV	-
+CS-178	[Tech] Remove multitenant authorizations from the event F/O show page	Improvement	Normal (SHOULD)	FUNCTIONAL REVIEW	2
+CS-242	[Scho] BO event - Old design for manage registered users button	Bug	Important (MUST)	FUNCTIONAL GO	2
+CS-249	[GDPR] Improve CV upload consent disclaimer	Improvement	Important (MUST)	TO DO	0
+CS-253	Kill "events_home" rollout	Task	Normal (SHOULD)	IN DEV	2
