@@ -7,8 +7,11 @@ $tickets_list = []
 email_body = {
     title: "Career Services Sprint Update",
     sprint_end_date: "#{(Time.now).strftime("%B")} #{Time.now.day}, #{Time.now.year}",
-    edito: "“Hi everybody,<br>This week, we'll have Sacha, Vlatka and Emmanuel working on the sprint.<br>Have a nice day !“<br /><br /><em>Thomas and Laurent</em>",
-    witty_comment: "Delivery Jost-in-Time",
+    edito: "“Hi everybody,<br>This week, we'll have Aurélie, Florent, Sacha, Vlatka and Emmanuel working on the sprint.<br>Have a nice day !“<br /><br /><em>Thomas and Laurent</em>",
+    witty_comment: "“One's destination is never a place, but a new way of seeing things“",
+    summary_section: {
+        title: "Summary of the last sprint"
+    },
     first_section: {
         title: "Tickets delivered during last sprint",
         statuses: ['DONE'],
@@ -32,7 +35,7 @@ email_body = {
             type: "Bug",
             nb_tickets: 0,
             tickets: []
-        },
+        }
     },
     second_section: {
         title: "Tickets not delivered during last sprint <br />(will be transferred to next sprint)",
@@ -57,7 +60,7 @@ email_body = {
             type: "Bug",
             nb_tickets: 0,
             tickets: []
-        },
+        }
     },
     third_section: {
         title: "Other tickets planned for next sprint",
@@ -208,6 +211,26 @@ section_looper(email_body)
 puts email_body
 
 @email_body = email_body
+
+@nb_features_done = @email_body[:first_section][:new_features][:nb_tickets]
+@nb_improvements_done = @email_body[:first_section][:improvements][:nb_tickets]
+@nb_tasks_done = @email_body[:first_section][:tasks][:nb_tickets]
+@nb_bugs_done = @email_body[:first_section][:bugs][:nb_tickets]
+
+@nb_features_inprogress = @email_body[:second_section][:new_features][:nb_tickets]
+@nb_improvements_inprogress = @email_body[:second_section][:improvements][:nb_tickets]
+@nb_tasks_inprogress = @email_body[:second_section][:tasks][:nb_tickets]
+@nb_bugs_inprogress = @email_body[:second_section][:bugs][:nb_tickets]
+
+@nb_features_todo = @email_body[:third_section][:new_features][:nb_tickets]
+@nb_improvements_todo = @email_body[:third_section][:improvements][:nb_tickets]
+@nb_tasks_todo = @email_body[:third_section][:tasks][:nb_tickets]
+@nb_bugs_todo = @email_body[:third_section][:bugs][:nb_tickets]
+
+@nb_done = @nb_features_done + @nb_improvements_done + @nb_tasks_done + @nb_bugs_done
+@nb_inprogress =  @nb_features_inprogress + @nb_improvements_inprogress + @nb_tasks_inprogress + @nb_bugs_inprogress
+@nb_todo =  @nb_features_todo + @nb_improvements_todo + @nb_tasks_todo + @nb_bugs_todo
+
 
 # Render template
 template = File.read('./template.html.erb')
