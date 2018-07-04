@@ -7,8 +7,8 @@ $tickets_list = []
 email_body = {
     title: "Career Services Sprint Update",
     sprint_end_date: "#{(Time.now).strftime("%B")} #{Time.now.day}, #{Time.now.year}",
-    edito: "“Hi everybody,<br>This week, we'll have Aurélie, Florent, Sacha, Vlatka and Emmanuel working on the sprint.<br>Have a nice day !“<br /><br /><em>Thomas and Laurent</em>",
-    witty_comment: "“One's destination is never a place, but a new way of seeing things“",
+    edito: "“Hi everybody,<br>This week, we'll have Aurélie, Florent and Vlatka working on the sprint.<br>Have a nice day !“<br /><br /><em>Thomas and Laurent</em>",
+    witty_comment: "“One's destination is never a place, but a new way of seeing things“", 
     summary_section: {
         title: "Summary of the last sprint"
     },
@@ -150,8 +150,13 @@ def tickets_looper(email_body, section, type, file, statuses, tickets, ticket_de
     File.open(file).readlines.each do |cLine|
         # Check if the file has been added
         if cLine.include?(type) && statuses.inject(false) { |memo, status| cLine.downcase.include?(status.downcase) || memo }
-            unless $tickets_list.include?(cLine.split("\t")[1])
-                tickets << cLine.split("\t")[1]
+            unless $tickets_list.include?(cLine.split("\t")[1]) || $tickets_list.include?(cLine.split("\t")[1] + " <span style='color: #FF6A77'>⇨ " + cLine.split("\t")[4] + "</span>")
+                if cLine.split("\t")[4].downcase == "done"
+                    tickets << cLine.split("\t")[1]
+                else
+                    tickets << cLine.split("\t")[1] + " <span style='color: #FF6A77'>⇨ " + cLine.split("\t")[4] + "</span>"
+                end
+
                 i = i + 1
             end
         end
