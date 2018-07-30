@@ -98,13 +98,19 @@
                             <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
                                 <tbody>
                                     <tr>
-                                        <td style="word-break:break-word;font-size:0px;padding:60px 40px 0px;" align="left">
-                                            <div class="" style="cursor:auto;color:#FF6A77;font-size:24px;line-height:33px;text-align:center;"><strong><%=@email_body[:title]%></strong></div>
+                                        <td style="word-break:break-word;font-size:0px;padding:60px 40px 0px;">
+                                            <div style="cursor:auto;color:#FF6A77;font-size:24px;line-height:33px;text-align:center;"><strong><%=@email_body[:title]%></strong></div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="word-break:break-word;font-size:0px;padding:10px 40px 60px;" align="left">
-                                            <div class="" style="cursor:auto;font-size:16px;line-height:22px;text-align:center;"><i><%=@email_body[:sprint_end_date]%></i></div>
+                                        <td style="word-break:break-word;font-size:0px;padding:10px 40px 60px;">
+                                            <div style="cursor:auto;font-size:16px;line-height:22px;text-align:center;"><i><%=@email_body[:sprint_end_date]%></i></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="word-break:break-word;font-size:0px;padding:0px;">
+                                            <div style="cursor:auto;color:#555;font-size:11px;line-height:22px;text-align:center;">by <strong>JobTeaser</strong></div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -144,13 +150,13 @@
                                 <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
                                     <tbody>
                                         <tr>
-                                            <td style="word-break:break-word;font-size:0px;padding:0px;" align="left">
-                                                <p class="" style="cursor:auto;font-size:14px;text-align:center;"><%=@email_body[:edito]%></p>
+                                            <td style="word-break:break-word;font-size:0px;padding:0px;">
+                                                <p style="cursor:auto;font-size:14px;text-align:center;"><%=@email_body[:edito]%></p>
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <td style="word-break:break-word;font-size:0px;padding:0px;" align="left">
+                                            <td style="word-break:break-word;font-size:0px;padding:0px;">
                                                 <h3 style="font-size:15px;font-family:Helvetica,sans-serif;color:#FF6A77;text-align:center;border-bottom:2px solid #FF6A77;padding-bottom: 10px;"><br /><%= @email_body[:summary_section][:title].upcase %></h3>
 
                                                 <table>
@@ -249,7 +255,7 @@
 
 
                                         <tr>
-                                            <td style="word-break:break-word;font-size:0px;padding:0px;" align="left">
+                                            <td style="word-break:break-word;font-size:0px;padding:0px;">
                                                 <div>
                                                     <% [:first_section, :second_section, :third_section].each do |section| %>
                                                         <h3 style="font-size:15px;font-family:Helvetica,sans-serif;color:#FF6A77;text-align:center;border-bottom:2px solid #FF6A77;padding-bottom: 10px;"><br /><%= @email_body[section][:title].upcase %></h3>
@@ -291,39 +297,7 @@
             <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
                 <tbody>
                     <tr>
-                        <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
-                            <!--[if mso | IE]>
-                                <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:528px;">
-                            <![endif]-->
-                            <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
-                                <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                                    <tbody>
-                                        <tr>
-                                            <td style="word-break:break-word;font-size:0px;padding:0px;" align="left">
-                                                <div class="" style="cursor:auto;font-size:13px;line-height:22px;text-align:left;">
-                                                    <table cellpadding="5" cellspacing="0" align="center">
-                                                        <tr>
-                                                            <td><img width="20" height="auto" src="https://d2mp1cia79qmhd.cloudfront.net/assets/emails/marketing/2017/04/evolution-cc/icon-jt.png" alt="JobTeaser"></td>
-                                                            <td><img width="20" height="auto" src="https://d2mp1cia79qmhd.cloudfront.net/assets/emails/marketing/2017/04/evolution-cc/icon-cp.png" alt="Cockpit"></td>
-                                                            <td><img width="20" height="auto" src="https://d2mp1cia79qmhd.cloudfront.net/assets/emails/marketing/2017/04/evolution-cc/icon-exp.png" alt="Explore"></td>
-                                                            <td><img width="20" height="auto" src="https://d2mp1cia79qmhd.cloudfront.net/assets/emails/marketing/2017/04/evolution-cc/icon-cc.png" alt="Career Center"></td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="word-break:break-word;font-size:0px;padding:0px;" align="center">
-                                                <div class="" style="cursor:auto;color:#555;font-size:11px;line-height:22px;text-align:center;">by <strong>JobTeaser</strong></div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!--[if mso | IE]>
-                                </td></tr></table>
-                            <![endif]-->
-                        </td>
+                        <td style="word-break:break-word;font-size:0px;padding:20px 0px;text-align:center;"><img width="185" height="auto" src="https://d2mp1cia79qmhd.cloudfront.net/assets/emails/marketing/2018/new-branding/logo.png" alt="JobTeaser"></td>
                     </tr>
                 </tbody>
             </table>
