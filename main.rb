@@ -1,14 +1,14 @@
 require "erb"
 require "date"
-require 'pathname'
+require "pathname"
 
 $tickets_list = []
 
 email_body = {
     title: "Career Services Sprint Update",
     sprint_end_date: "#{(Time.now).strftime("%B")} #{Time.now.day}, #{Time.now.year}",
-    edito: "“Hi everybody,<br>This week, we'll have Aurélie, Florent and Vlatka working on the sprint.<br>Have a nice day !“<br /><br /><em>Thomas and Laurent</em>",
-    witty_comment: "“One's destination is never a place, but a new way of seeing things“", 
+    edito: "“Hi everybody,<br>This week, we'll have Aurélie, Erik, Florent, Renaud, Sacha and Vlatka working on the sprint.<br>Have a nice day!“<br /><br /><em>Thomas, Morgane and Laurent</em>",
+    witty_comment: "Why don't you ever see Father Christmas in hospital? - Because he has private elf care!", 
     summary_section: {
         title: "Summary of the last sprint"
     },
@@ -39,7 +39,7 @@ email_body = {
     },
     second_section: {
         title: "Tickets not delivered during last sprint <br />(will be transferred to next sprint)",
-        statuses: ['TO DO', 'IN DEV', 'TECH REVIEW', 'FUNCTIONAL REVIEW', 'READY FOR RELEASE'],
+        statuses: ['TO DO', 'IN DEV', 'TECH REVIEW', 'FUNCTIONAL REVIEW', 'FUNCTIONAL GO'],
         file: 'last_sprint.txt',
         new_features: {
             type: "New Feature",
@@ -64,7 +64,7 @@ email_body = {
     },
     third_section: {
         title: "Other tickets planned for next sprint",
-        statuses: ['TO DO', 'IN DEV', 'TECH REVIEW', 'FUNCTIONAL REVIEW', 'READY FOR RELEASE'],
+        statuses: ['TO DO', 'IN DEV', 'TECH REVIEW', 'FUNCTIONAL REVIEW', 'FUNCTIONAL GO'],
         file: 'next_sprint.txt',
         new_features: {
             type: "New Feature",
