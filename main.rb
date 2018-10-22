@@ -200,7 +200,7 @@ def getfilename()
     current_time = Time.new.strftime("%Y-%m-%d")
     
     # Create filename
-    filename = 'sprint_update_' + current_time + ".html"
+    filename = current_time + "_sprint_update_CS.html"
 
     # Create folder with all file of sprint update
     foldername = "History"
