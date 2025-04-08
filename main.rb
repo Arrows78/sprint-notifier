@@ -2,9 +2,11 @@ require "erb"
 require "date"
 require "pathname"
 
+# Global array to store processed tickets
 $tickets_list = []
 
-email_body = {
+# Email body configuration
+$email_body = {
     title: "Career Services Sprint Update",
     sprint_end_date: "#{(Time.now).strftime("%B")} #{Time.now.day}, #{Time.now.year}",
     edito: "“Hi everybody,<br>This week, we'll have Aurélie, Erik, Florent, Renaud, Sacha and Vlatka working on the sprint.<br>Have a nice day!“<br /><br /><em>Thomas, Morgane and Laurent</em>",
@@ -12,81 +14,26 @@ email_body = {
     summary_section: {
         title: "Summary of the last sprint"
     },
-    first_section: {
-        title: "Tickets delivered during last sprint",
-        statuses: ['DONE'],
-        file: 'last_sprint.txt',
-        new_features: {
-            type: "New Feature",
-            nb_tickets: 0,
-            tickets: []
+    sections: [
+        {
+            title: "Tickets delivered during last sprint",
+            statuses: ['DONE'],
+            file: 'last_sprint.txt',
+            types: ["New Feature", "Improvement", "Task", "Bug"]
         },
-        improvements: {
-            type: "Improvement",
-            nb_tickets: 0,
-            tickets: []
+        {
+            title: "Tickets not delivered during last sprint (will be transferred to next sprint)",
+            statuses: ['TO DO', 'IN DEV', 'TECH REVIEW', 'FUNCTIONAL REVIEW', 'FUNCTIONAL GO'],
+            file: 'last_sprint.txt',
+            types: ["New Feature", "Improvement", "Task", "Bug"]
         },
-        tasks: {
-            type: "Task",
-            nb_tickets: 0,
-            tickets: []
-        },
-        bugs: {
-            type: "Bug",
-            nb_tickets: 0,
-            tickets: []
+        {
+            title: "Other tickets planned for next sprint",
+            statuses: ['TO DO', 'IN DEV', 'TECH REVIEW', 'FUNCTIONAL REVIEW', 'FUNCTIONAL GO'],
+            file: 'next_sprint.txt',
+            types: ["New Feature", "Improvement", "Task", "Bug"]
         }
-    },
-    second_section: {
-        title: "Tickets not delivered during last sprint <br />(will be transferred to next sprint)",
-        statuses: ['TO DO', 'IN DEV', 'TECH REVIEW', 'FUNCTIONAL REVIEW', 'FUNCTIONAL GO'],
-        file: 'last_sprint.txt',
-        new_features: {
-            type: "New Feature",
-            nb_tickets: 0,
-            tickets: []
-        },
-        improvements: {
-            type: "Improvement",
-            nb_tickets: 0,
-            tickets: []
-        },
-        tasks: {
-            type: "Task",
-            nb_tickets: 0,
-            tickets: []
-        },
-        bugs: {
-            type: "Bug",
-            nb_tickets: 0,
-            tickets: []
-        }
-    },
-    third_section: {
-        title: "Other tickets planned for next sprint",
-        statuses: ['TO DO', 'IN DEV', 'TECH REVIEW', 'FUNCTIONAL REVIEW', 'FUNCTIONAL GO'],
-        file: 'next_sprint.txt',
-        new_features: {
-            type: "New Feature",
-            nb_tickets: 0,
-            tickets: []
-        },
-        improvements: {
-            type: "Improvement",
-            nb_tickets: 0,
-            tickets: []
-        },
-        tasks: {
-            type: "Task",
-            nb_tickets: 0,
-            tickets: []
-        },
-        bugs: {
-            type: "Bug",
-            nb_tickets: 0,
-            tickets: []
-        }
-    }
+    ]
 }
 
 ################################################################################################ FUNCTIONS SECTION
@@ -102,9 +49,7 @@ email_body = {
 # RETURNS:  /
 ################################################################################################
 def section_looper(email_body)
-    section = [:first_section, :second_section, :third_section]
-
-    section.each do |section|
+    email_body[:sections].each do |section|
         type_looper(email_body, section)
     end
 end
@@ -121,10 +66,8 @@ end
 # RETURNS:  /
 ################################################################################################
 def type_looper(email_body, section)
-    type = [:new_features, :improvements, :tasks, :bugs]
-
-    type.each do |cType|
-        tickets_looper(email_body, section, email_body[section][cType][:type], email_body[section][:file], email_body[section][:statuses], email_body[section][cType][:tickets], email_body[section][cType])
+    section[:types].each do |ticket_type|
+        tickets_looper(email_body, section, ticket_type)
     end
 end
 
@@ -136,35 +79,33 @@ end
 # PARAMETERS:
 #       email_body: Get content of the email to generate
 #       section: Current section to iterate on
-#       type: ?
-#       file: ?
-#       statuses: ?
-#       tickets: ?
-#       ticket_details: ?
+#       ticket_type: The type of issue for a specific ticket
 #
 # RETURNS:  /
 ################################################################################################
-def tickets_looper(email_body, section, type, file, statuses, tickets, ticket_details)
-    i = 0
+def tickets_looper(email_body, section, ticket_type)
+    tickets = []
 
-    File.open(file).readlines.each do |cLine|
+    File.open(section[:file]).readlines.each do |line|
         # Check if the file has been added
-        if cLine.include?(type) && statuses.inject(false) { |memo, status| cLine.downcase.include?(status.downcase) || memo }
-            unless $tickets_list.include?(cLine.split("\t")[1]) || $tickets_list.include?(cLine.split("\t")[1] + " <span style='color: #FF6A77'>⇨ " + cLine.split("\t")[4] + "</span>")
-                if cLine.split("\t")[4].downcase == "done"
-                    tickets << cLine.split("\t")[1]
-                else
-                    tickets << cLine.split("\t")[1] + " <span style='color: #FF6A77'>⇨ " + cLine.split("\t")[4] + "</span>"
-                end
+        if line.include?(ticket_type) && section[:statuses].any? { |status| line.downcase.include?(status.downcase) }
+            ticket_id = line.split("\t")[1]
+            ticket_status = line.split("\t")[4]
+            next if $tickets_list.include?(ticket_id) || $tickets_list.include?(ticket_id + " <span style='color: #FF6A77'>⇨ " + ticket_status + "</span>")
 
-                i = i + 1
-            end
+            # Add ticket to the list, with style applied for status
+            ticket_with_status = ticket_status.downcase == "done" ? ticket_id : ticket_id + " <span style='color: #FF6A77'>⇨ " + ticket_status + "</span>"
+            tickets << ticket_with_status
+            $tickets_list << ticket_with_status
         end
     end
 
-    if i > 0
-        $tickets_list = tickets + ($tickets_list - tickets)
-        ticket_details[:nb_tickets] = i
+    # Update the number of tickets
+    email_body[:sections].each do |sec|
+        if sec[:title] == section[:title]
+            section[ticket_type.downcase.tr(" ", "_").to_sym] = tickets
+            section["nb_#{ticket_type.downcase.tr(" ", "_")}"] = tickets.size
+        end
     end
 end
 
@@ -198,11 +139,7 @@ end
 ################################################################################################
 def getfilename()
     current_time = Time.new.strftime("%Y-%m-%d")
-
-    # Create filename
     filename = current_time + "_sprint_update_CS.html"
-
-    # Create folder with all file of sprint update
     foldername = "History"
     Dir.mkdir(foldername) unless File.exist?(foldername)
 
@@ -212,30 +149,62 @@ end
 
 ################################################################################################ MAIN SECTION
 
-section_looper(email_body)
-puts email_body
+section_looper($email_body)
+puts $email_body
 
-@email_body = email_body
+@email_body = $email_body
 
-@nb_features_done = @email_body[:first_section][:new_features][:nb_tickets]
-@nb_improvements_done = @email_body[:first_section][:improvements][:nb_tickets]
-@nb_tasks_done = @email_body[:first_section][:tasks][:nb_tickets]
-@nb_bugs_done = @email_body[:first_section][:bugs][:nb_tickets]
+# Helper to get the count of a type in a section
+def count_tickets_for_type(section, type)
+  key = "nb_#{type.downcase.tr(" ", "_")}"
+  section[key] || 0
+end
 
-@nb_features_inprogress = @email_body[:second_section][:new_features][:nb_tickets]
-@nb_improvements_inprogress = @email_body[:second_section][:improvements][:nb_tickets]
-@nb_tasks_inprogress = @email_body[:second_section][:tasks][:nb_tickets]
-@nb_bugs_inprogress = @email_body[:second_section][:bugs][:nb_tickets]
+done_section = $email_body[:sections][0]
+inprogress_section = $email_body[:sections][1]
+todo_section = $email_body[:sections][2]
 
-@nb_features_todo = @email_body[:third_section][:new_features][:nb_tickets]
-@nb_improvements_todo = @email_body[:third_section][:improvements][:nb_tickets]
-@nb_tasks_todo = @email_body[:third_section][:tasks][:nb_tickets]
-@nb_bugs_todo = @email_body[:third_section][:bugs][:nb_tickets]
+@nb_features_done        = count_tickets_for_type(done_section, "New Feature")
+@nb_improvements_done    = count_tickets_for_type(done_section, "Improvement")
+@nb_tasks_done           = count_tickets_for_type(done_section, "Task")
+@nb_bugs_done            = count_tickets_for_type(done_section, "Bug")
 
-@nb_done = @nb_features_done + @nb_improvements_done + @nb_tasks_done + @nb_bugs_done
-@nb_inprogress =  @nb_features_inprogress + @nb_improvements_inprogress + @nb_tasks_inprogress + @nb_bugs_inprogress
-@nb_todo =  @nb_features_todo + @nb_improvements_todo + @nb_tasks_todo + @nb_bugs_todo
+@nb_features_inprogress  = count_tickets_for_type(inprogress_section, "New Feature")
+@nb_improvements_inprogress = count_tickets_for_type(inprogress_section, "Improvement")
+@nb_tasks_inprogress     = count_tickets_for_type(inprogress_section, "Task")
+@nb_bugs_inprogress      = count_tickets_for_type(inprogress_section, "Bug")
 
+@nb_features_todo        = count_tickets_for_type(todo_section, "New Feature")
+@nb_improvements_todo    = count_tickets_for_type(todo_section, "Improvement")
+@nb_tasks_todo           = count_tickets_for_type(todo_section, "Task")
+@nb_bugs_todo            = count_tickets_for_type(todo_section, "Bug")
+
+@nb_done      = @nb_features_done + @nb_improvements_done + @nb_tasks_done + @nb_bugs_done
+@nb_inprogress = @nb_features_inprogress + @nb_improvements_inprogress + @nb_tasks_inprogress + @nb_bugs_inprogress
+@nb_todo      = @nb_features_todo + @nb_improvements_todo + @nb_tasks_todo + @nb_bugs_todo
+
+puts "--- Résumé des tickets ---"
+
+puts "✔️ Done"
+puts "  New Features       : #{@nb_features_done}"
+puts "  Improvements       : #{@nb_improvements_done}"
+puts "  Tasks              : #{@nb_tasks_done}"
+puts "  Bugs               : #{@nb_bugs_done}"
+puts "  Total              : #{@nb_done}"
+
+puts "🚧 In Progress"
+puts "  New Features       : #{@nb_features_inprogress}"
+puts "  Improvements       : #{@nb_improvements_inprogress}"
+puts "  Tasks              : #{@nb_tasks_inprogress}"
+puts "  Bugs               : #{@nb_bugs_inprogress}"
+puts "  Total              : #{@nb_inprogress}"
+
+puts "📝 To Do"
+puts "  New Features       : #{@nb_features_todo}"
+puts "  Improvements       : #{@nb_improvements_todo}"
+puts "  Tasks              : #{@nb_tasks_todo}"
+puts "  Bugs               : #{@nb_bugs_todo}"
+puts "  Total              : #{@nb_todo}"
 
 # Render template
 template = File.read('./template.html.erb')
@@ -246,3 +215,5 @@ filename = getfilename()
 File.open(filename, 'w+') do |f|
     f.write result
 end
+
+puts "Email content has been generated successfully and saved to #{filename}."

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sprint Update</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sprint Update</title>
     <style type="text/css">
         #outlook a { padding: 0; }
         .ReadMsgBody { width: 100%; }
@@ -253,26 +253,32 @@
                                             </td>
                                         </tr>
 
-
                                         <tr>
                                             <td style="word-break:break-word;font-size:0px;padding:0px;">
                                                 <div>
-                                                    <% [:first_section, :second_section, :third_section].each do |section| %>
-                                                        <h3 style="font-size:15px;font-family:Helvetica,sans-serif;color:#FF6A77;text-align:center;border-bottom:2px solid #FF6A77;padding-bottom: 10px;"><br /><%= @email_body[section][:title].upcase %></h3>
+                                                    <% @email_body[:sections].each do |section| %>
+                                                        <h3 style="font-size:15px;font-family:Helvetica,sans-serif;color:#FF6A77;text-align:center;border-bottom:2px solid #FF6A77;padding-bottom: 10px;"><br /><%= section[:title].upcase %></h3>
 
-                                                        <% [:new_features, :improvements, :tasks, :bugs].each do |type| %>
-                                                            <% if @email_body[section][type][:nb_tickets] > 0 %>
-                                                                <h4 style="font-size:12pt;font-family:Helvetica,sans-serif;color:rgb(74,74,74)"><%= @email_body[section][type][:nb_tickets]%> <%= pluralize(@email_body[section][type][:type].downcase, @email_body[section][type][:nb_tickets]) %>:</h4>
+                                                        <% section[:types].each do |ticket_type| %>
 
-                                                                <% @email_body[section][type][:tickets].each do |ticket| %>
-                                                                    <li style="font-size:14px;text-align:left"><%= ticket %></li>
-                                                                <% end %>
+                                                            <% ticket_list = section[ticket_type.downcase.tr(" ", "_").to_sym] || [] %>
+                                                            <% ticket_count = section["nb_#{ticket_type.downcase.tr(" ", "_")}"] || 0 %>
+
+                                                            <% if ticket_count >= 0 %>
+                                                                <h4 style="font-size:12pt;font-family:Helvetica,sans-serif;color:rgb(74,74,74)"><%= ticket_count %> <%= pluralize(ticket_type, ticket_count) %>:</h4>
+
+                                                                <ul style="font-size:14px;text-align:left">
+                                                                    <% ticket_list.each do |ticket| %>
+                                                                        <li style="font-size:14px;text-align:left"><%= ticket %></li>
+                                                                    <% end %>
+                                                                </ul>
                                                             <% end %>
                                                         <% end %>
                                                     <% end %>
                                                 </div>
                                             </td>
                                         </tr>
+
                                         <tr><td><p style="border-top: 1px solid #4a4a4a; font-size:14px;text-align:center; padding-top: 10px; margin-top: 50px;">Stay tuned,<br /><br />Career Services</p></td></tr>
                                     </tbody>
                                 </table>
