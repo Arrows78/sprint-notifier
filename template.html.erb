@@ -70,7 +70,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <!--[if mso | IE]>
             </td></tr></table>
         <![endif]-->
@@ -132,7 +132,7 @@
         <!--[if mso | IE]>
             </td></tr></table>
         <![endif]-->
-            
+
         <!--[if mso | IE]>
             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="528" align="center" style="width:528px;">
             <tr>
@@ -259,7 +259,7 @@
                                                 <div>
                                                     <% [:first_section, :second_section, :third_section].each do |section| %>
                                                         <h3 style="font-size:15px;font-family:Helvetica,sans-serif;color:#FF6A77;text-align:center;border-bottom:2px solid #FF6A77;padding-bottom: 10px;"><br /><%= @email_body[section][:title].upcase %></h3>
-                                                    
+
                                                         <% [:new_features, :improvements, :tasks, :bugs].each do |type| %>
                                                             <% if @email_body[section][type][:nb_tickets] > 0 %>
                                                                 <h4 style="font-size:12pt;font-family:Helvetica,sans-serif;color:rgb(74,74,74)"><%= @email_body[section][type][:nb_tickets]%> <%= pluralize(@email_body[section][type][:type].downcase, @email_body[section][type][:nb_tickets]) %>:</h4>
@@ -285,7 +285,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <!--[if mso | IE]>
             </td></tr></table>
         <![endif]-->

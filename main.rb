@@ -8,7 +8,7 @@ email_body = {
     title: "Career Services Sprint Update",
     sprint_end_date: "#{(Time.now).strftime("%B")} #{Time.now.day}, #{Time.now.year}",
     edito: "“Hi everybody,<br>This week, we'll have Aurélie, Erik, Florent, Renaud, Sacha and Vlatka working on the sprint.<br>Have a nice day!“<br /><br /><em>Thomas, Morgane and Laurent</em>",
-    witty_comment: "Why don't you ever see Father Christmas in hospital? - Because he has private elf care!", 
+    witty_comment: "Why don't you ever see Father Christmas in hospital? - Because he has private elf care!",
     summary_section: {
         title: "Summary of the last sprint"
     },
@@ -93,9 +93,9 @@ email_body = {
 
 ###############################################################################################
 # FUNCTION: section_looper
-# 
+#
 # PURPOSE: Iterate the process on all sections
-# 
+#
 # PARAMETERS:
 #       email_body: Get content of the email to generate
 #
@@ -111,9 +111,9 @@ end
 
 ###############################################################################################
 # FUNCTION: type_looper
-# 
+#
 # PURPOSE: Itearate the process on all type of tickets
-# 
+#
 # PARAMETERS:
 #       email_body: Get content of the email to generate
 #       section: Current section to iterate on
@@ -122,7 +122,7 @@ end
 ################################################################################################
 def type_looper(email_body, section)
     type = [:new_features, :improvements, :tasks, :bugs]
-    
+
     type.each do |cType|
         tickets_looper(email_body, section, email_body[section][cType][:type], email_body[section][:file], email_body[section][:statuses], email_body[section][cType][:tickets], email_body[section][cType])
     end
@@ -130,9 +130,9 @@ end
 
 ###############################################################################################
 # FUNCTION: tickets_looper
-# 
+#
 # PURPOSE: Iterate on all lines of sprint files (last and next sprints)
-# 
+#
 # PARAMETERS:
 #       email_body: Get content of the email to generate
 #       section: Current section to iterate on
@@ -170,9 +170,9 @@ end
 
 ###############################################################################################
 # FUNCTION: pluralize
-# 
+#
 # PURPOSE: Add the pluralize
-# 
+#
 # PARAMETERS:
 #       word: The word to check if we need to add plural of not
 #       nb: Number to identify plural
@@ -189,22 +189,22 @@ end
 
 ###############################################################################################
 # FUNCTION: getfilename
-# 
+#
 # PURPOSE:  Determine the filename with current date
-# 
+#
 # PARAMETERS: /
-# 
+#
 # RETURNS:  Path of the file to create serving to add all information of the sprint update
 ################################################################################################
 def getfilename()
     current_time = Time.new.strftime("%Y-%m-%d")
-    
+
     # Create filename
     filename = current_time + "_sprint_update_CS.html"
 
     # Create folder with all file of sprint update
     foldername = "History"
-    Dir.mkdir(foldername) unless File.exists?(foldername)
+    Dir.mkdir(foldername) unless File.exist?(foldername)
 
     return File.join(".", foldername, filename)
 end
